@@ -1,0 +1,159 @@
+/* app/globals.css */
+@import "tailwindcss";
+
+/* === Design tokens (όπως τα έχεις) === */
+:root {
+  --radius: 0.625rem;
+
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.141 0.005 285.823);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.141 0.005 285.823);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.141 0.005 285.823);
+
+  --primary: oklch(0.21 0.006 285.885);
+  --primary-foreground: oklch(0.985 0 0);
+
+  --secondary: oklch(0.967 0.001 286.375);
+  --secondary-foreground: oklch(0.21 0.006 285.885);
+
+  --muted: oklch(0.967 0.001 286.375);
+  --muted-foreground: oklch(0.552 0.016 285.938);
+
+  --accent: oklch(0.967 0.001 286.375);
+  --accent-foreground: oklch(0.21 0.006 285.885);
+
+  --destructive: oklch(0.577 0.245 27.325);
+
+  --border: oklch(0.92 0.004 286.32);
+  --input: oklch(0.92 0.004 286.32);
+  --ring: oklch(0.705 0.015 286.067);
+
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.141 0.005 285.823);
+  --sidebar-primary: oklch(0.21 0.006 285.885);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.967 0.001 286.375);
+  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
+  --sidebar-border: oklch(0.92 0.004 286.32);
+  --sidebar-ring: oklch(0.705 0.015 286.067);
+}
+
+.dark {
+  --background: oklch(0.0 0.0 0);
+  --foreground: oklch(0.985 0 0);
+
+  --card: oklch(0.21 0.006 285.885);
+  --card-foreground: oklch(0.985 0 0);
+
+  --popover: oklch(0.21 0.006 285.885);
+  --popover-foreground: oklch(0.985 0 0);
+
+  --primary: oklch(0.92 0.004 286.32);
+  --primary-foreground: oklch(0.21 0.006 285.885);
+
+  --secondary: oklch(0.274 0.006 286.033);
+  --secondary-foreground: oklch(0.985 0 0);
+
+  --muted: oklch(0.274 0.006 286.033);
+  --muted-foreground: oklch(0.705 0.015 286.067);
+
+  --accent: oklch(0.274 0.006 286.033);
+  --accent-foreground: oklch(0.985 0 0);
+
+  --destructive: oklch(0.704 0.191 22.216);
+
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.552 0.016 285.938);
+
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+
+  --sidebar: oklch(0.21 0.006 285.885);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.274 0.006 286.033);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.552 0.016 285.938);
+}
+
+/* === Base reset/skin (χωρίς @apply) === */
+@layer base {
+  * { border-color: var(--border); }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
+
+/* === Tailwind v4-friendly helpers για shadcn variants === */
+/* Τα παρακάτω κτίζουν τις classes που περιμένει το button.tsx χωρίς @apply */
+
+@layer utilities {
+  /* background / text tokens */
+  .bg-background { background-color: var(--background); }
+  .text-foreground { color: var(--foreground); }
+
+  .bg-primary { background-color: var(--primary); }
+  .text-primary-foreground { color: var(--primary-foreground); }
+
+  .bg-secondary { background-color: var(--secondary); }
+  .text-secondary-foreground { color: var(--secondary-foreground); }
+
+  .bg-accent { background-color: var(--accent); }
+  .text-accent-foreground { color: var(--accent-foreground); }
+
+  .bg-destructive { background-color: var(--destructive); }
+  .text-destructive-foreground { color: oklch(0.985 0 0); }
+
+  /* borders / inputs / rings */
+  .border-border { border-color: var(--border); }
+  .border-input { border-color: var(--input); }
+  .ring-ring { --tw-ring-color: var(--ring); }
+
+  /* hover helpers που χρησιμοποιεί το buttonVariants */
+  .hover\:bg-secondary\/80:hover {
+    background-color: color-mix(in oklch, var(--secondary) 80%, transparent);
+  }
+  .hover\:bg-accent:hover { background-color: var(--accent); }
+  .hover\:text-accent-foreground:hover { color: var(--accent-foreground); }
+  .hover\:bg-primary\/90:hover {
+    background-color: color-mix(in oklch, var(--primary) 90%, transparent);
+  }
+  .hover\:bg-destructive\/90:hover {
+    background-color: color-mix(in oklch, var(--destructive) 90%, transparent);
+  }
+    .text-muted-foreground { color: var(--muted-foreground); }
+  .bg-foreground { background-color: var(--foreground); }
+}
+
+/* (προαιρετικά) radius helper αν το χρειαστείς κάπου */
+:root { --button-radius: var(--radius); }
+
+/* === FIX για Recharts tooltip === */
+.recharts-tooltip-wrapper,
+.recharts-default-tooltip {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: transparent !important;
+  color: inherit !important;
+}

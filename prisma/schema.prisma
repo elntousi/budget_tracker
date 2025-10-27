@@ -1,0 +1,69 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./lib/generated/prisma" 
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+/**
+ * ---------------- Models ----------------
+ */
+
+model UserSettings {
+  userId   String @id
+  currency String
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  name      String
+  userId    String
+  icon      String?
+  type      String   @default("income")
+
+  @@unique([name, userId, type])
+}
+
+model Transaction {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  amount      Float
+  description String?
+  date        DateTime @default(now())
+  userId      String
+  type        String
+
+  // κρατάς τα πεδία όπως τα θες (denormalized)
+  category     String?
+  categoryIcon String?
+}
+
+model MonthHistory {
+  userId  String
+  day     Int
+  month   Int
+  year    Int
+  income  Float
+  expense Float
+
+  @@id([day, month, year, userId])
+}
+
+model YearHistory {
+  userId  String
+  month   Int
+  year    Int
+  income  Float
+  expense Float
+
+  @@id([month, year, userId])
+}
