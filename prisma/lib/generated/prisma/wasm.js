@@ -86,6 +86,9 @@ Prisma.NullTypes = {
  * Enums
  */
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -136,6 +139,11 @@ exports.Prisma.YearHistoryScalarFieldEnum = {
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
 };
 
 exports.Prisma.NullsOrder = {
@@ -189,18 +197,18 @@ const config = {
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "sqlite",
+  "activeProvider": "postgresql",
   "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
-        "fromEnvVar": null,
-        "value": "file:./dev.db"
+        "fromEnvVar": "POSTGRES_PRISMA_URL",
+        "value": null
       }
     }
   },
-  "inlineSchema": "// prisma/schema.prisma\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./lib/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = \"file:./dev.db\"\n}\n\n/**\n * ---------------- Models ----------------\n */\n\nmodel UserSettings {\n  userId   String @id\n  currency String\n}\n\nmodel Category {\n  id        String   @id @default(uuid())\n  createdAt DateTime @default(now())\n  name      String\n  userId    String\n  icon      String?\n  type      String   @default(\"income\")\n\n  @@unique([name, userId, type])\n}\n\nmodel Transaction {\n  id        String   @id @default(uuid())\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  amount      Float\n  description String?\n  date        DateTime @default(now())\n  userId      String\n  type        String\n\n  // κρατάς τα πεδία όπως τα θες (denormalized)\n  category     String?\n  categoryIcon String?\n}\n\nmodel MonthHistory {\n  userId  String\n  day     Int\n  month   Int\n  year    Int\n  income  Float\n  expense Float\n\n  @@id([day, month, year, userId])\n}\n\nmodel YearHistory {\n  userId  String\n  month   Int\n  year    Int\n  income  Float\n  expense Float\n\n  @@id([month, year, userId])\n}\n",
-  "inlineSchemaHash": "25f353bd1358252024787cdead2de629cba2284de67c836192becc40ce629b5b",
+  "inlineSchema": "// prisma/schema.prisma\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./lib/generated/prisma\"\n}\n\ndatasource db {\n  provider  = \"postgresql\"\n  url       = env(\"POSTGRES_PRISMA_URL\")\n  directUrl = env(\"POSTGRES_URL_NON_POOLING\")\n}\n\n/**\n * ---------------- Models ----------------\n */\n\nmodel UserSettings {\n  userId   String @id\n  currency String\n}\n\nmodel Category {\n  id        String   @id @default(uuid())\n  createdAt DateTime @default(now())\n  name      String\n  userId    String\n  icon      String?\n  type      String   @default(\"income\")\n\n  @@unique([name, userId, type])\n}\n\nmodel Transaction {\n  id        String   @id @default(uuid())\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  amount      Float\n  description String?\n  date        DateTime @default(now())\n  userId      String\n  type        String\n\n  // κρατάς τα πεδία όπως τα θες (denormalized)\n  category     String?\n  categoryIcon String?\n}\n\nmodel MonthHistory {\n  userId  String\n  day     Int\n  month   Int\n  year    Int\n  income  Float\n  expense Float\n\n  @@id([day, month, year, userId])\n}\n\nmodel YearHistory {\n  userId  String\n  month   Int\n  year    Int\n  income  Float\n  expense Float\n\n  @@id([month, year, userId])\n}\n",
+  "inlineSchemaHash": "8f798d2a1ae21bf8b25cddf6a80dde4615eaaae5dfb00dd14db52ebcc844e82e",
   "copyEngine": true
 }
 config.dirname = '/'
@@ -218,7 +226,9 @@ config.engineWasm = {
 config.compilerWasm = undefined
 
 config.injectableEdgeEnv = () => ({
-  parsed: {}
+  parsed: {
+    POSTGRES_PRISMA_URL: typeof globalThis !== 'undefined' && globalThis['POSTGRES_PRISMA_URL'] || typeof process !== 'undefined' && process.env && process.env.POSTGRES_PRISMA_URL || undefined
+  }
 })
 
 if (typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined) {
