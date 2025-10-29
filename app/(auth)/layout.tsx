@@ -1,9 +1,11 @@
-import ClientNavbarWrapper from "@/components/ClientNavbarWrapper";
+"use client";
+
+import Navbar from "@/components/Navbar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <ClientNavbarWrapper />
+      <Navbar />
       {children}
     </>
   );
