@@ -67,8 +67,7 @@ function CategoriesCard({
     (el: { type: string; _sum: { amount: number | null } }) => el.type === type
   );
 
-  const total = filteredData.reduce(
-    (acc, el: { _sum: { amount: number | null } }) => acc + (el._sum?.amount || 0),
+  const total = filteredData.reduce(    (acc: number, el: { _sum: { amount: number | null } }) => acc + (el._sum?.amount || 0),
     0
   );
 
@@ -94,7 +93,7 @@ function CategoriesCard({
         {filteredData.length > 0 && (
           <ScrollArea className="h-60 w-full px-4">
             <div className="flex w-full flex-col gap-4 p-4">
-              {filteredData.map((item) => {
+              {filteredData.map((item: { category: string | null; categoryIcon: string | null; _sum: { amount: number | null } }) => {
                 const amount = item._sum.amount || 0;
                 const percentage = (amount * 100) / (total || amount);
 

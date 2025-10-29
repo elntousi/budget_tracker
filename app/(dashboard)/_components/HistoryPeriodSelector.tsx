@@ -6,7 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Period, Timeframe } from '@/lib/types';
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 interface Props {
   period: Period;
@@ -20,6 +20,15 @@ function HistoryPeriodSelector({ period, setPeriod, timeframe, setTimeframe }: P
     queryKey: ["overview", "history", "periods"],
     queryFn: () => fetch(`/api/history-periods`).then((res) => res.json()),
   });
+
+  const years: number[] = useMemo(() => {
+    if (!historyPeriods.data) return [];
+    const collectedYears: number[] = [];
+    for (const item of historyPeriods.data) {
+      collectedYears.push(item);
+    }
+    return Array.from(new Set(collectedYears));
+  }, [historyPeriods.data]);
 
   return (
     <div className="flex flex-wrap items-center gap-4">
@@ -40,14 +49,13 @@ function HistoryPeriodSelector({ period, setPeriod, timeframe, setTimeframe }: P
       </SkeletonWrapper>
 
       <div className="flex flex-wrap items-center gap-2">
-        <SkeletonWrapper isLoading={historyPeriods.isFetching} fullWidth={false}>
-          <YearSelector
-            period={period}
-            setPeriod={setPeriod}
-            years={historyPeriods.data || []}
-          />
-        </SkeletonWrapper>
-
+              <SkeletonWrapper isLoading={historyPeriods.isFetching} fullWidth={false}>
+                <YearSelector
+                  period={period}
+                  setPeriod={setPeriod}
+                  years={years}
+                />
+              </SkeletonWrapper>
         {timeframe === "month" && (
           <SkeletonWrapper isLoading={historyPeriods.isFetching} fullWidth={false}>
             <MonthSelector period={period} setPeriod={setPeriod} />
@@ -68,7 +76,7 @@ function YearSelector({
 }: {
   period: Period;
   setPeriod: (period: Period) => void;
-  years: GetHistoryPeriodsResponseType;
+  years: number[];
 }) {
   return (
     <Select

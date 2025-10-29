@@ -40,7 +40,7 @@ interface Props {
   to: Date;
 }
 
-const emptyData: any[] = [];
+const emptyData: TransactionHistoryRow[] = [];
 type TransactionHistoryRow = GetTransactionHistoryResponseType[0];
 
 const columns: ColumnDef<TransactionHistoryRow>[] = [
@@ -165,7 +165,7 @@ function TransactionTable({ from, to }: Props) {
       ).then((res) => res.json()),
   });
 
-  const handleExportCSV = (data: any[]) => {
+  const handleExportCSV = (data: { category: string | null; categoryIcons?: string | null; description?: string | null; type: string; date: string; amount: number; formattedAmount: string; }[]) => {
     const csv = generateCsv(csvConfig)(data);
     download(csvConfig)(csv);
   };
@@ -228,7 +228,7 @@ function TransactionTable({ from, to }: Props) {
                 categoryIcons: row.original.categoryIcon,
                 description: row.original.description,
                 type: row.original.type,
-                date: row.original.date,
+                date: row.original.date.toLocaleDateString(),
                 amount: row.original.amount,
                 formattedAmount: row.original.formattedAmount,
               })

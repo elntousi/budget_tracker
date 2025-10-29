@@ -47,7 +47,7 @@ interface Props {
 }
 
 function CreateTransactionDialog({ trigger, type }: Props) {
-  const form = useForm<CreateTxFormInput, any, CreateTxFormOutput>({
+  const form = useForm<CreateTxFormInput, CreateTxFormOutput>({
     resolver: zodResolver(CreateTransactionsSchema),
     defaultValues: {
       type,

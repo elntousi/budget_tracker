@@ -158,7 +158,7 @@ function History({ userSettings }: { userSettings: UserSettings }) {
 
 export default History;
 
-function CustomTooltip({ active, payload, label, formatter }: any) {
+function CustomTooltip({ active, payload, label, formatter }: { active?: boolean; payload?: Array<{ payload?: { month: number; year: number; expense: number; income: number; day?: number; } }>; label?: string | number; formatter: Intl.NumberFormat; }) {
   const [mouse, setMouse] = React.useState({ x: 0, y: 0 });
 
   React.useEffect(() => {
@@ -169,7 +169,7 @@ function CustomTooltip({ active, payload, label, formatter }: any) {
     return () => window.removeEventListener("mousemove", handleMove);
   }, []);
 
-  if (!active || !payload?.length) return null;
+  if (!active || !payload?.length || !payload[0]?.payload) return null;
 
   const data = payload[0].payload;
   const { income, expense } = data;

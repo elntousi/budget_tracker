@@ -32,7 +32,7 @@ async function getHistoryPeriods(userId: string) {
     ],
   });
 
-  const years = result.map((el) => el.year);
+  const years = result.map((el: { year: number }) => el.year);
   if (years.length === 0) {
     // Αν δεν υπάρχουν δεδομένα, επιστρέφει το τρέχον έτος
     return [new Date().getFullYear()];

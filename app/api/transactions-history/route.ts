@@ -1,5 +1,6 @@
 import { GetFormatterForCurrency } from "@/lib/helpers";
 import prisma from "@/lib/prisma";
+import { Transaction } from "@/prisma/lib/generated/prisma/client";
 import { OverviewQuerySchema } from "@/schema/overview";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
@@ -63,7 +64,7 @@ async function getTransactionsHistory(userId: string, from: Date, to: Date) {
     },
   });
 
-  return transactions.map((transaction) => ({
+  return transactions.map((transaction: Transaction) => ({
     ...transaction,
     formattedAmount: formatter.format(transaction.amount),
   }));

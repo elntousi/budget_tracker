@@ -22,11 +22,12 @@ const EmojiPicker: React.FC<Props> = ({ onSelect, className, theme = 'auto' }) =
     el.setAttribute('theme', theme);
 
     const handle = (e: Event) => {
-      const ce = e as CustomEvent<any>;
+      const ce = e as CustomEvent<{ unicode?: string; emoji?: { unicode: string } | string }>;
+      const emojiDetail = ce.detail?.emoji;
       const unicode =
         ce.detail?.unicode ??
-        ce.detail?.emoji?.unicode ??
-        ce.detail?.emoji ??
+        (typeof emojiDetail === 'object' && emojiDetail !== null && 'unicode' in emojiDetail ? emojiDetail.unicode : undefined) ??
+        (typeof emojiDetail === 'string' ? emojiDetail : undefined) ??
         '';
       if (unicode) onSelect?.(unicode);
     };
@@ -35,8 +36,8 @@ const EmojiPicker: React.FC<Props> = ({ onSelect, className, theme = 'auto' }) =
     return () => el.removeEventListener('emoji-click', handle as EventListener);
   }, [onSelect, theme]);
 
-  // @ts-ignore → αγνοούμε το unknown tag
-  return <emoji-picker ref={ref as any} class={className}></emoji-picker>;
+  // @ts-expect-error → αγνοούμε το unknown tag
+  return <emoji-picker ref={ref} class={className}></emoji-picker>;
 };
 
 export default EmojiPicker;

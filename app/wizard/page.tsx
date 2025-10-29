@@ -25,7 +25,7 @@ export default async function Page() {
       </h1>
       <h2 className="mt-4 text-center text-base
       text-muted-foreground">
-        Let's get started by setting up your currency
+        Let&apos;s get started by setting up your currency
       </h2>
       <h3 className= "mt-2 text-center text-sm text-muted-foreground">
         You can always change this at any time.
@@ -45,7 +45,7 @@ export default async function Page() {
      </Card>
      <Separator />
       <Button className="w-full" asChild>
-        <Link href="/"> I'm ready! Take me to my dashboard </Link>
+        <Link href="/"> I&apos;m ready! Take me to my dashboard </Link>
       </Button>
       <div className="mt-8">
         <Logo />

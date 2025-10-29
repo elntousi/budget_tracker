@@ -35,7 +35,7 @@ function DeleteCategoryDialog({ trigger, category }: Props) {
     <AlertDialogContent>
         <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure? </AlertDialogTitle>
-            <AlertDialogDescription>This action cannot be undone. This will permanently delete the category "{category.name}".</AlertDialogDescription>
+            <AlertDialogDescription>This action cannot be undone. This will permanently delete the category &quot;{category.name}&quot;.</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
