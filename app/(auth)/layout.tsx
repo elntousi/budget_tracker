@@ -1,11 +1,10 @@
-import dynamic from "next/dynamic";
-
-const Navbar = dynamic(() => import("@/components/Navbar"), { ssr: false });
+import React from "react";
+import ClientNavbarWrapper from "@/components/ClientNavbarWrapper";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative flex h-screen w-full flex-col">
-      <Navbar />
+      <ClientNavbarWrapper />
       <div className="w-full">{children}</div>
     </div>
   );
