@@ -98,7 +98,8 @@ const onSubmit = useCallback(
   [mutate]
 );
 
-const { theme, resolvedTheme } = useTheme();
+const { resolvedTheme } = useTheme();
+
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

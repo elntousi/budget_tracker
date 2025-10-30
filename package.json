@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "build": "next build",
+    "build:turbopack": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
     "postinstall": "prisma generate"
@@ -50,6 +51,7 @@
     "emoji-picker-element": "^1.27.0",
     "export-to-csv": "^1.4.0",
     "input-otp": "^1.4.2",
+    "lightningcss": "^1.30.2",
     "lucide-react": "^0.545.0",
     "next": "^15.5.4",
     "next-themes": "^0.4.6",

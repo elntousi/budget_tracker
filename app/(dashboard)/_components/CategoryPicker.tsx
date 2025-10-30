@@ -13,7 +13,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Category } from "@/lib/generated/prisma/client";
 import { TransactionType } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
-import React, { use, useCallback, useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import CreateCategoryDialog from "./CreateCategoryDialog";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -27,7 +27,6 @@ interface Props {
 
 function CategoryPicker({ type, value, onChange }: Props) {
   const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState<string>("");
 
   useEffect(() => {
     if (!value) return;
