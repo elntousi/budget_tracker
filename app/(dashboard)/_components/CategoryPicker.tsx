@@ -10,7 +10,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Category } from "@/lib/generated/prisma/client";
+import { Category } from "lib/generated/prisma/client";
 import { TransactionType } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import React, { useCallback, useEffect } from "react";
